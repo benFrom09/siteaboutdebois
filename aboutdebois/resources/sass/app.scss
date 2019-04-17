@@ -1,6 +1,7 @@
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Karla|Montserrat|Open+Sans|Tangerine|Pinyon+Script');
 
 // Variables
 @import 'variables';
@@ -8,7 +9,200 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+*{
+  box-sizing:border-box;
+}
+
+html,body {
+   padding: 0;
+  margin: 0;
+  background: $abdb-bg-color;
+  color: #fff;
+  width:100%;
+  height: 100%;
+}
+
+main {
+  height:100%;
+}
+
+.admin {
+  position:relative;
+}
+
+.site-wrapper {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    background:$abdb-bg-color;
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "center";
+    z-index:100;
+  }
+  .site-wrapper-inner {
+    grid-area: center;
+    align-self: center;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+p {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 400; 
+}
+
+strong {
+  font-weight: normal; 
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Tangerine", cursive;
+  font-size: 3.5em;
+  font-weight: 300; }
+
+h3 {
+  font-size: 2em;
+  margin-bottom: 10px;
+  line-height: 1.2em; 
+}
+
+hr {
+  margin: 20px auto;
+  width: 25%;
+  height: 2px;
+  background: $abdb-span-text-color;
+  border: none; 
+}
+
+a {
+  color:#000;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+.card {
+  background: $choco-theme-translucid;
+}
+/* form button image*/
+.custom-file-label::after {
+    content: "Parcourir";
+}
+
+#pageHeader{
+  height: 100px;
+}
+header {
+  border-bottom: 1px solid $base-text-color;
+  z-index: 1000; 
+  height: 100px;
+  .navbar {
+    background:#fff;
+    
+  }
+  nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #fff;
+    opacity: $bg-opacity;
+    padding: 0;
+    transition: padding ease 0.3s;
+    color: #000;
+    height: 100px;
+    .nav-item-container {
+      display:flex;
+      justify-content: center;
+      width: 100%;
+      li{
+        margin: 5px;
+        cursor: pointer;
+        a {
+          display: block;
+          padding: 20px;
+          color: #000
+         }
+        .abdb-link:hover {
+          border-bottom: 1px solid $abdb-span-text-color; }
+
+      }
+    }
+    #menuiserie {
+    font-family: "Open Sans";
+    font-size: 1rem; 
+    }
+    #logo {
+    font-family: "Tangerine", cursive;
+    font-size: 3.5em;
+    -webkit-font-feature-settings: "swsh";
+    font-feature-settings: "swsh";
+    padding: 5px; 
+      a{
+        font-size: 3rem;
+      }
+    }
+    #logo span:not(#menuiserie) {
+    text-transform: capitalize;
+    display: inline-block;
+    border-radius: 60px; }
+  }
+
+  
+
+
+}
+/**********************************************************
+                  Galerie
+**********************************************************/
+.galery-container {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  .card {
+    margin:10px 20px;
+  }
+}
+/**********************************************************
+                Galerie-menu
+************************************************************/
+
+.galery-menu {
+  padding:0.5rem;
+  text-align:right;
+  .menu-icons{
+    a{
+      margin:0.2rem 0.5rem 0.2rem 0.5rem;
+      position:relative;
+      .info{
+        position:absolute;
+        width:200px;
+        margin-top:23px;
+        margin-left:-35px;
+        color:#fff;
+        background:rgba(0,0,0,.9);
+        padding:15px;
+        border-radius:3px;
+        box-shadow:0 0 2px rgba(0,0,0,.5);
+        transform:scale(0) rotate(-12deg);
+        transition:all .25s;
+        z-index:1000;
+        opacity:0;
+      }
+      
+    }
+    a:hover .info, a:focus .info {
+        transform:scale(1) rotate(0);     
+        opacity:1;
+      }
+  }
 }

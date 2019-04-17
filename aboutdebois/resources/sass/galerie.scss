@@ -1,0 +1,16 @@
+//galerie create
+
+  .preview-container {
+    position: relative;
+    .fa-times-circle {
+      position:absolute;
+      top:0.5rem;
+      right: 0.5rem;
+      color:#bf0f0f;
+      font-size:2rem;
+      cursor:pointer;
+      display:none;
+
+    }
+  }
+  

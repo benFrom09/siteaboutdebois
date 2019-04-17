@@ -1,33 +1,79 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
+import './modules/menu';
+import Swal from 'sweetalert2';
+import DomElement from './modules/DomElement';
+const App = {
+    deleteRequest: {
+        method: "DELETE",
+        headers: {
+            "X-Requested-Width": "XMLHttpRequest",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+        }
+    },
+    loading() {
+        let timeout = window.setTimeout(() => {
+            DomElement.loader.style.display = 'none';
+            clearTimeout(timeout);
+        }, 500);
+    }
+}
 
-window.Vue = require('vue');
+if (window.location.pathname === '/abdb-admin/categories') {
+    //delete a category
+    DomElement.categories.deleteBtn.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            //POP UP
+            Swal.fire({
+                title: 'Vous etes sur le point de supprimer une catégorie',
+                showCancelButton: true,
+                type: 'warning',
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Oui',
+                cancelButtonText: 'Non',
+            }).then(result => {
+                console.log(result);
+                if (result.value) {
+                    //request to delete file
+                    fetch(item.href, App.deleteRequest).then(response => response.json()).then(data => {
+                        //POP UP
+                        Swal.fire(data);
+                    });
+                }
+            });
+        });
+    });
+}
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+if (window.location.pathname === '/abdb-admin/galerie/create') {
+    DomElement.fileInput.addEventListener('change', (e) => {
+        let files = e.target.files;
+        if (files && files[0]) {
+            document.querySelector('.custom-file-label').innerHTML = files[0].name;
+            let reader = new FileReader();
+            reader.addEventListener('load', (e) => {
+                DomElement.imagePreview.src = e.target.result;
+            });
+            reader.readAsDataURL(files[0]);
+        }
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+    });
+}
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//ADMIN.HOME
+if (window.location.pathname === '/abdb-admin/home') {
+    //loader
+    App.loading();
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+    DomElement.imageManagers.forEach(item => {
+        item.addEventListener('click', (e) => {
+            document.querySelector('.menuIcons').style.display = 'block';
+        });
+    });
 
-const app = new Vue({
-    el: '#app'
-});
+}
+
+if (window.location.pathname.match(/^\/abdb-admin\/galerie\/categorie\/[A-Za-z_0-9\-]+$/g)) {
+    //loader
+    App.loading();
+}

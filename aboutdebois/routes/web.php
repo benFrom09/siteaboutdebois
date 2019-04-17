@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,3 +15,21 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+$admin = "/abdb-admin";
+Route::get($admin . '/home', 'HomeController@index')->name('home');
+
+//Category
+Route::get($admin . '/categorie/create', 'CategoryController@create')->name('category.create');
+Route::post($admin . '/categorie/store', 'CategoryController@store')->name('category.store');
+Route::get($admin . '/categories', 'CategoryController@index')->name('category.index');
+Route::get($admin . '/categorie/edit/{category}', 'CategoryController@edit')->name('category.edit');
+Route::put($admin . '/categorie/update/{category}', 'CategoryController@update')->name('category.update');
+Route::delete($admin . '/categorie/destroy/{category}', 'CategoryController@destroy')->name('category.destroy');
+//Images
+Route::get($admin . '/galerie/create', 'GaleryController@create')->name('galery.create');
+Route::post($admin . '/galerie/store', 'GaleryController@store')->name('galery.store');
+Route::get($admin . '/galerie/categorie/{slug}', 'GaleryController@category')->name('galery.category');
+Route::delete($admin . '/galerie/destroy/{image}', 'GaleryController@destroy')->name('galery.destroy');
+Route::put($admin . '/galerie/update/{image}', 'GaleryController@destroy')->name('galery.update');
