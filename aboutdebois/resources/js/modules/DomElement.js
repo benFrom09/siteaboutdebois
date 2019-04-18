@@ -6,7 +6,12 @@ const DomElement = {
     },
     fileInput: document.querySelector('input[type="file"]'),
     imagePreview: document.querySelector('#preview'),
-    imageManagers: document.querySelectorAll('.toggleIcons'),
+    imageManager: {
+        deleteBtn: document.querySelectorAll('.image-delete'),
+        editImgDescriptionBtn: document.querySelectorAll('.description-edit'),
+        editImgCategoryBtn: document.querySelectorAll('.category-edit'),
+        imgPublish: document.querySelectorAll('.img-publish'),
+    },
 };
 
 export default DomElement;

@@ -10857,7 +10857,7 @@ header nav #logo span:not(#menuiserie) {
   position: relative;
 }
 
-.galery-menu .menu-icons a .info {
+.galery-menu .menu-icons a .abdb-info {
   position: absolute;
   width: 200px;
   margin-top: 23px;
@@ -10872,10 +10872,11 @@ header nav #logo span:not(#menuiserie) {
   transition: all 0.25s;
   z-index: 1000;
   opacity: 0;
+  text-align: center;
 }
 
-.galery-menu .menu-icons a:hover .info,
-.galery-menu .menu-icons a:focus .info {
+.galery-menu .menu-icons a:hover .abdb-info,
+.galery-menu .menu-icons a:focus .abdb-info {
   -webkit-transform: scale(1) rotate(0);
           transform: scale(1) rotate(0);
   opacity: 1;

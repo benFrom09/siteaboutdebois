@@ -32,4 +32,6 @@ Route::get($admin . '/galerie/create', 'GaleryController@create')->name('galery.
 Route::post($admin . '/galerie/store', 'GaleryController@store')->name('galery.store');
 Route::get($admin . '/galerie/categorie/{slug}', 'GaleryController@category')->name('galery.category');
 Route::delete($admin . '/galerie/destroy/{image}', 'GaleryController@destroy')->name('galery.destroy');
-Route::put($admin . '/galerie/update/{image}', 'GaleryController@destroy')->name('galery.update');
+Route::get($admin . '/galerie/edit/{image}', 'GaleryController@edit')->name('galery.edit');
+Route::put($admin . '/galerie/update/{image}', 'GaleryController@update')->name('galery.update');
+Route::get($admin . '/galerie/{image}', 'GaleryController@get')->name('galery.get');

@@ -183,7 +183,7 @@ header {
     a{
       margin:0.2rem 0.5rem 0.2rem 0.5rem;
       position:relative;
-      .info{
+      .abdb-info{
         position:absolute;
         width:200px;
         margin-top:23px;
@@ -197,10 +197,11 @@ header {
         transition:all .25s;
         z-index:1000;
         opacity:0;
+        text-align:center;
       }
       
     }
-    a:hover .info, a:focus .info {
+    a:hover .abdb-info, a:focus .abdb-info {
         transform:scale(1) rotate(0);     
         opacity:1;
       }

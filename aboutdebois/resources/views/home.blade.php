@@ -8,7 +8,7 @@
 <div class="container-fluid" id="gallery">
     @isset($category)
     <h2 class="text-title mb-3">{{ $category->name }}</h2>
-    @endif
+    @endisset
 </div>
 <div class="d-flex justify-content-center">
     {{ $images->links() }}
@@ -20,7 +20,7 @@
             <img class="card-img-top" src="{{ asset('storage/thumbs/' . $image->name) }}" alt="image">
         </a>
         @isset($image->description)
-        <div class="card-body">
+        <div class="card-body card-description" data-id="{{$image->id}}">
             <p class="card-text">{{ $image->description }}</p>
         </div>
         @endisset
@@ -37,8 +37,14 @@
         </div>
         @include('Admin.page.partials.gestionphotos')
     </div>
-
     @endforeach
+    @if($images == null)
+    <div class="alert alert-warning">
+        <i class="fas fa-info-circle"></i>
+        La galerie est vide vous pouvez charger des photos<br>
+        en cliquant sur <span class="text-info">menu</span> puis <span class="text-info">ajouter des images</span>
+    </div>
+    @endif
 </div>
 <div class="d-flex justify-content-center">
     {{ $images->links() }}

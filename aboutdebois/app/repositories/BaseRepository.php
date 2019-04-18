@@ -22,4 +22,9 @@ abstract class BaseRepository
     {
         return $this->model->all();
     }
+
+    public function get($id)
+    {
+        return $this->model->whereId($id)->get();
+    }
 }

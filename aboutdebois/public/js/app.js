@@ -44164,6 +44164,21 @@ var App = {
       "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
     }
   },
+  postRequest: {
+    method: "POST",
+    headers: {
+      "X-Requested-Width": "XMLHttpRequest",
+      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+    }
+  },
+  putRequest: {
+    method: "PUT",
+    headers: {
+      "X-Requested-Width": "XMLHttpRequest",
+      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+      "Content-Type": "application/json"
+    }
+  },
   loading: function loading() {
     var timeout = window.setTimeout(function () {
       _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].loader.style.display = 'none';
@@ -44221,9 +44236,99 @@ if (window.location.pathname === '/abdb-admin/galerie/create') {
 if (window.location.pathname === '/abdb-admin/home') {
   //loader
   App.loading();
-  _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].imageManagers.forEach(function (item) {
+  _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].imageManager.deleteBtn.forEach(function (item) {
     item.addEventListener('click', function (e) {
-      document.querySelector('.menuIcons').style.display = 'block';
+      e.preventDefault();
+      var arr = item.href.split('/'); //POP UP
+
+      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire({
+        title: 'Vous etes sur le point de supprimer une image de la base de donnée',
+        showCancelButton: true,
+        type: 'warning',
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Oui',
+        cancelButtonText: 'Non'
+      }).then(function (result) {
+        console.log(result);
+
+        if (result.value) {
+          //request to delete file
+          fetch(item.href, App.deleteRequest).then(function (response) {
+            return response.json();
+          }).then(function (data) {
+            //suprimer le container
+            document.querySelector('#image' + arr[arr.length - 1]).remove();
+            sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire({
+              html: data,
+              timer: 1000,
+              onBeforeOpen: function onBeforeOpen() {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.showLoading();
+              }
+            }).then(function (result) {
+              if ( // Read more about handling dismissals
+              result.dismiss === sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.DismissReason.timer) {
+                console.log('I was closed by the timer');
+              }
+            });
+          });
+        }
+      });
+    });
+  });
+  _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].imageManager.editImgDescriptionBtn.forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      fetch('/abdb-admin/galerie/' + item.dataset.id).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire({
+          title: 'Modifier/ajouter une description',
+          input: 'text',
+          inputValue: data.description,
+          showCancelButton: true
+        }).then(function (result) {
+          //update
+          console.log(result);
+          App.putRequest.body = JSON.stringify({
+            description: result.value
+          });
+          fetch('/abdb-admin/galerie/update/' + item.dataset.id, App.putRequest).then(function (response) {
+            return response.json();
+          }).then(function (data) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire({
+              html: 'Le fichier' + data.name + ' a été modifié :) !',
+              timer: 2000,
+              onBeforeOpen: function onBeforeOpen() {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.showLoading();
+              }
+            });
+            document.querySelector(".card-description[data-id=\"".concat(item.dataset.id, "\"]")).children[0].innerHTML = data.description;
+          });
+        });
+      });
+    });
+  });
+  _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].imageManager.imgPublish.forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      item.dataset.publish == 0 ? item.dataset.publish = 1 : item.dataset.publish = 0;
+      App.putRequest.body = JSON.stringify({
+        published: item.dataset.publish
+      });
+      fetch('/abdb-admin/galerie/update/' + item.dataset.id, App.putRequest).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+
+        if (data.published == 0) {
+          document.querySelector('.fa-check').style.display = 'none';
+          document.querySelector('.fa-upload').style.display = 'block';
+        } else {
+          document.querySelector('.fa-check').style.display = 'block';
+          document.querySelector('.fa-upload').style.display = 'none';
+        }
+      });
     });
   });
 }
@@ -44312,7 +44417,12 @@ var DomElement = {
   },
   fileInput: document.querySelector('input[type="file"]'),
   imagePreview: document.querySelector('#preview'),
-  imageManagers: document.querySelectorAll('.toggleIcons')
+  imageManager: {
+    deleteBtn: document.querySelectorAll('.image-delete'),
+    editImgDescriptionBtn: document.querySelectorAll('.description-edit'),
+    editImgCategoryBtn: document.querySelectorAll('.category-edit'),
+    imgPublish: document.querySelectorAll('.img-publish')
+  }
 };
 /* harmony default export */ __webpack_exports__["default"] = (DomElement);
 
