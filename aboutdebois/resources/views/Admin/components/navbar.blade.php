@@ -11,11 +11,12 @@
     <!---->
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav nav-item-container mr-auto">
-            <li class="nav-item active">
-                <a class="abdb-link" href="#">voir le site<span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="abdb-link" href="{{route('static')}}">voir le site<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item {{ currentRoute(route('home')) }}">
-                <a class="abdb-link" href="{{route('home')}}">Galerie<span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="abdb-link {{ currentRoute(route('home')) }}" href="{{route('home')}}">Galerie<span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle
@@ -28,7 +29,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownCat">
                     @foreach($categories as $category)
-                    <a class="dropdown-item"
+                    <a class="dropdown-item" data-id="{{$category->id}}"
                         href="{{ route('galery.category', $category->slug) }}">{{ $category->name }}</a>
                     @endforeach
                 </div>

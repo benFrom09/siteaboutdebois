@@ -17,7 +17,8 @@
             </a>
             <a class="img-publish" data-publish="{{$image->published}}" data-id="{{$image->id}}" href="#"
                 data-toggle="tooltip">
-                <i class="fa @if($image->published) fa-check @else fa-upload @endif"></i>
+                <i data-id="{{$image->id}}"
+                    class="fa @if($image->published) fa-check text-success @else fa-upload @endif publish-icon"></i>
                 <span class="abdb-info">@if($image->published) @lang('Changer de statut : retirer du
                     slider') @else @lang('Changer de statut : publier')@endif</span>
             </a>

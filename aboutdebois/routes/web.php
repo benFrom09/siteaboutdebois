@@ -1,4 +1,5 @@
 <?php
+use App\Models\Image;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -13,8 +14,9 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $images = Image::all();
+    return view('Front.page.static', compact('images'));
+})->name('static');
 
 Auth::routes();
 $admin = "/abdb-admin";

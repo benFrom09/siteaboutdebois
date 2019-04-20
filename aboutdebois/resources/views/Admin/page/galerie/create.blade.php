@@ -21,7 +21,6 @@
     </div>
     <div class="form-group preview-container">
         <img id="preview" class="img-fluid" src="#" alt="">
-        <i class="far fa-times-circle"></i>
     </div>
     <div class="form-group">
         <label for="category_id">@lang('Catégorie')</label>

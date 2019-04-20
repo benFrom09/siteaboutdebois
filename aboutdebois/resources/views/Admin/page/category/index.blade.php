@@ -7,10 +7,10 @@
 <table class="table text-white">
     <tbody>
         @foreach($categories as $category)
-        <tr>
+        <tr data-id="{{$category->id}}">
             <td>{{ $category->name }}</td>
             <td>
-                <a type="button" href="{{ route('category.destroy', $category->id) }}"
+                <a data-id="{{$category->id}}" type="button" href="{{ route('category.destroy', $category->id) }}"
                     class="btn btn-danger btn-sm pull-right" data-toggle="tooltip" data-name="delete-category"
                     title="@lang('Supprimer la catégorie') {{ $category->name }}"><i class="fas fa-trash"></i></a>
                 <a type="button" href="{{ route('category.edit', $category->id) }}"

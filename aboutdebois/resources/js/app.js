@@ -2,6 +2,11 @@ require('./bootstrap');
 import './modules/menu';
 import Swal from 'sweetalert2';
 import DomElement from './modules/DomElement';
+import Carousel from './modules/carousel/Carousel';
+import Slick from 'slick-carousel/slick/slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import '../sass/slider.scss';
 const App = {
     deleteRequest: {
         method: "DELETE",
@@ -30,7 +35,22 @@ const App = {
             DomElement.loader.style.display = 'none';
             clearTimeout(timeout);
         }, 500);
-    }
+    },
+    sliderFullscreen: false,
+    carousel: null,
+}
+
+function openModalRealisation(e) {
+    document.querySelector(".slider-container").style.position = "static";
+    DomElement.modalRealisation.style.display = "block";
+    DomElement.modalRealisation.style.top = window.scrollY + "px";
+}
+function closeModalRealisation() {
+    DomElement.modalRealisation.style.display = "none";
+    DomElement.sectionCover.style.display = "block";
+    DomElement.sectionPresentation.style.display = "block";
+    DomElement.sectionSAbout.style.display = "block";
+    DomElement.sectionSContact.style.display = "block";
 }
 
 if (window.location.pathname === '/abdb-admin/categories') {
@@ -52,6 +72,8 @@ if (window.location.pathname === '/abdb-admin/categories') {
                     //request to delete file
                     fetch(item.href, App.deleteRequest).then(response => response.json()).then(data => {
                         //POP UP
+                        document.querySelector(`tr[data-id="${item.dataset.id}"]`).remove();
+                        document.querySelector(`.dropdown-item[data-id="${item.dataset.id}"]`).remove();
                         Swal.fire(data);
                     });
                 }
@@ -156,15 +178,33 @@ if (window.location.pathname === '/abdb-admin/home') {
             (item.dataset.publish == 0) ? item.dataset.publish = 1 : item.dataset.publish = 0;
             App.putRequest.body = JSON.stringify({ published: item.dataset.publish });
             fetch('/abdb-admin/galerie/update/' + item.dataset.id, App.putRequest).then(response => response.json()).then(data => {
-                console.log(data);
-                if (data.published == 0) {
-                    document.querySelector('.fa-check').style.display = 'none';
-                    document.querySelector('.fa-upload').style.display = 'block';
+                let icon = document.querySelector(`i[data-id="${item.dataset.id}"]`);
+                icon.nextElementSibling.style.opacity = 0;
+                icon.nextElementSibling.style.transform = 'transform:scale(0) rotate(-12deg)';
+                icon.nextElementSibling.style.transition = 'all 0.25s';
+
+                if (data.published === '0') {
+                    icon.classList.remove('fa-check', 'text-success');
+                    icon.classList.add('fa-upload');
+                    icon.nextElementSibling.textContent = 'Changer de statut: publier';
                 }
-                else {
-                    document.querySelector('.fa-check').style.display = 'block';
-                    document.querySelector('.fa-upload').style.display = 'none';
+                if (data.published === '1') {
+                    icon.classList.remove('fa-upload');
+                    icon.classList.add('fa-check', 'text-success');
+                    icon.nextElementSibling.textContent = 'Changer de statut: retirer du slider'
                 }
+
+                item.addEventListener('mouseover', (e) => {
+                    icon.nextElementSibling.style.opacity = 1;
+                    icon.nextElementSibling.style.transform = 'transform:scale(1) rotate(0deg)';
+                });
+                item.addEventListener('mouseout', (e) => {
+                    icon.nextElementSibling.style.opacity = 0;
+                    con.nextElementSibling.style.transform = 'transform:scale(0) rotate(-12deg)';
+                    icon.nextElementSibling.style.transition = 'all 0.25s';
+                });
+
+
             });
         });
     })
@@ -174,4 +214,80 @@ if (window.location.pathname === '/abdb-admin/home') {
 if (window.location.pathname.match(/^\/abdb-admin\/galerie\/categorie\/[A-Za-z_0-9\-]+$/g)) {
     //loader
     App.loading();
+}
+
+if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
+
+    //front slick slider banners
+
+    $(".slider").slick({
+        infinite: false,
+        speed: 300,
+        centerPadding: "60px",
+        slidesToShow: 4,
+        arrows: true,
+        dots: true
+    });
+
+
+
+
+    window.onscroll = function (e) {
+        if (document.body.getBoundingClientRect().top < -1) {
+            DomElement.frontNav.style.background = "#fff";
+            DomElement.frontNav.style.opacity = 1;
+            DomElement.frontNav.style.padding = "20px 0 20px 0";
+        } else {
+            DomElement.frontNav.style.background = "#fff";
+            DomElement.frontNav.style.opacity = 0.8;
+            DomElement.frontNav.style.padding = "0";
+        }
+        let winScroll =
+            document.body.scrollTop || document.documentElement.scrollTop;
+        let height =
+            document.documentElement.scrollHeight -
+            document.documentElement.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        if (winScroll !== 0) {
+            DomElement.scrollBarInc.style.height = 5 + "px";
+            DomElement.scrollBarInc.parentNode.style.background = "#fff";
+        } else {
+            DomElement.scrollBarInc.style.height = 0 + "px";
+        }
+
+        DomElement.scrollBarInc.style.width = scrolled + "%";
+    };
+
+    App.carousel = new Carousel(document.querySelector('.slideshowContainer'));
+
+    document.querySelectorAll(".slider-item").forEach((item, i) => {
+        item.addEventListener("click", e => {
+            document.body.style.overflowY = 'hidden';
+            openModalRealisation();
+            App.sliderFullScreen = true;
+            App.carousel.setCurrentSlide(i);
+            App.carousel.showSlide();
+        });
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if (e.code === "ArrowRight") {
+            (App.carousel !== null) ? App.carousel.next() : false;
+
+        }
+        if (e.code === "ArrowLeft") {
+            (App.carousel !== null) ? App.carousel.previous() : false;
+        }
+    })
+    document.querySelector(".close-realisation").addEventListener("click", e => {
+        closeModalRealisation();
+        document.body.style.overflowY = 'auto';
+    });
+
+    window.addEventListener('resize', (e) => {
+        closeModalRealisation();
+        App.carousel = null;
+        App.sliderFullscreen = false;
+        document.body.style.overflowY = 'auto';
+    })
 }

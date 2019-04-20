@@ -22,12 +22,9 @@ html,body {
   height: 100%;
 }
 
-main {
-  height:100%;
-}
-
 .admin {
   position:relative;
+  padding-top:60px;
 }
 
 .site-wrapper {
@@ -88,12 +85,44 @@ a {
   color:#000;
   text-decoration: none;
 }
+
+.page-link {
+  color: #bcbfc1;
+  border:none;
+  background:#4c333d
+}
+.active {
+  border-bottom: 1px solid $abdb-span-text-color; 
+}
+.active:not(.page-item >.page-link) {
+  border-bottom: 1px solid $abdb-span-text-color; 
+}
+
+.page-item.active {
+  border:none;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: $abdb-span-text-color;
+    border:none;
+
+}
 a:hover {
   text-decoration: none;
 }
 .card {
   background: $choco-theme-translucid;
 }
+
+.abdb-card {
+  min-width:300px;
+}
+.abdb-form-btn {
+  background: $abdb-form-btn;
+}
+
+
 /* form button image*/
 .custom-file-label::after {
     content: "Parcourir";
@@ -103,9 +132,7 @@ a:hover {
   height: 100px;
 }
 header {
-  border-bottom: 1px solid $base-text-color;
   z-index: 1000; 
-  height: 100px;
   .navbar {
     background:#fff;
     
@@ -119,7 +146,6 @@ header {
     padding: 0;
     transition: padding ease 0.3s;
     color: #000;
-    height: 100px;
     .nav-item-container {
       display:flex;
       justify-content: center;
@@ -132,9 +158,9 @@ header {
           padding: 20px;
           color: #000
          }
-        .abdb-link:hover {
-          border-bottom: 1px solid $abdb-span-text-color; }
-
+      }
+      .abdb-link:hover {
+        border-bottom: 1px solid $abdb-span-text-color; 
       }
     }
     #menuiserie {
@@ -161,15 +187,73 @@ header {
 
 
 }
+/*********************************************************
+*   ADMIN HEADER
+***********************************************************/
+@media(max-width:768px){
+  nav {
+    height: unset;
+    #logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .navbar .nav-link {
+      padding:20px;
+    }
+  }
+
+}
 /**********************************************************
                   Galerie
 **********************************************************/
 .galery-container {
+  width:80%;
+  margin:auto;
   display:flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  padding-top:2rem;
+  padding-bottom:2rem;
+ 
   .card {
     margin:10px 20px;
+    min-width: 150px;
+    width:50%;
+  }
+  
+    
+}
+@media (min-width:769px) and (max-width:1080px){
+  .galery-container{
+    flex-wrap: wrap;
+    .card {
+       
+      width: 33.3%;
+    }
+  }
+
+
+}
+@media (max-width:768px){
+  .abdb-card {
+    width: 50%;
+    margin: auto;
+  }
+  .galery-container {
+   flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap:wrap;
+    .card {
+      margin:10px 20px;
+      min-width: 80%;
+    }
+  
+    
   }
 }
 /**********************************************************
