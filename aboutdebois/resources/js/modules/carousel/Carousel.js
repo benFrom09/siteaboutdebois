@@ -58,6 +58,13 @@ export default class Carousel {
         this.showSlide();
     }
 
+    destroy() {
+        this.container = null;
+        this.items = null;
+        this.dots.remove();
+        this.slideIndex = 0;
+    }
+
 
 
 

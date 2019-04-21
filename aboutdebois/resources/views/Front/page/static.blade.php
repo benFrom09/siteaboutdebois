@@ -5,12 +5,14 @@
     <div class="cover-image">
         <img src="/img/cover.jpg" alt="photo de couverture etablit rabeaux et copeaux de bois" class="image">
     </div>
+    <!--
     <div class="arrow-down">
         <div id="down">
             <i class="fas fa-angle-down "></i>
         </div>
 
     </div>
+-->
 </section>
 <section id="presentation">
     <div class="section-title">
@@ -98,8 +100,9 @@
     <div class="footer-content-after"></div>
 </footer>
 <div class="cpy text-center">
-    <p>©2019 Corpo. All rights reserved | Design by ben09-developer-fullstack
-        <a href="https://github.com/benFrom09/ben09"><i class="fab fa-github fa-2x"></i></a>
+    <p>©2019 ben09-developer-fullstack
+        <span class="references"><i class="fas fa-at"></i> ben09.dev@gmail.com</span>
+        <a class="references" href="https://github.com/benFrom09/ben09">github <i class="fab fa-github"></i></a>
     </p>
 </div>
 @include('Front.partials.slideshowmodal')

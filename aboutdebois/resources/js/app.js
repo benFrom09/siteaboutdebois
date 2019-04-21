@@ -31,7 +31,9 @@ const App = {
         }
     },
     loading() {
+        document.body.style.overflowY = 'hidden';
         let timeout = window.setTimeout(() => {
+            document.body.style.overflowY = 'auto';
             DomElement.loader.style.display = 'none';
             clearTimeout(timeout);
         }, 500);
@@ -261,7 +263,11 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
     App.carousel = new Carousel(document.querySelector('.slideshowContainer'));
 
     document.querySelectorAll(".slider-item").forEach((item, i) => {
+
         item.addEventListener("click", e => {
+            if (App.carousel === null) {
+                App.carousel = new Carousel(document.querySelector('.slideshowContainer'));
+            }
             document.body.style.overflowY = 'hidden';
             openModalRealisation();
             App.sliderFullScreen = true;
@@ -281,13 +287,21 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
     })
     document.querySelector(".close-realisation").addEventListener("click", e => {
         closeModalRealisation();
+        App.carousel.destroy();
+        App.carousel = null;
         document.body.style.overflowY = 'auto';
     });
 
     window.addEventListener('resize', (e) => {
         closeModalRealisation();
-        App.carousel = null;
+        if (App.carousel) {
+            App.carousel.destroy();
+            App.carousel = null;
+        }
+
         App.sliderFullscreen = false;
         document.body.style.overflowY = 'auto';
-    })
+    });
+
+
 }

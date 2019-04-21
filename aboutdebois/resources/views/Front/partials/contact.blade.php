@@ -18,8 +18,9 @@
         </div>
         <div class="contact-form">
             <form id="contact-form" action="" method="POST">
+                @csrf
                 <div class="form-input">
-                    <input type="text" name="object" id="object" placeholder="Objet">
+                    <input type="text" name="object" id="object" value="Objet: besoin de renseignements">
                 </div>
                 <div class="form-input">
                     <input type="email" name="email" id="email" placeholder="Votre Email">

@@ -10674,6 +10674,7 @@ body {
   color: #fff;
   width: 100%;
   height: 100%;
+  overflow-y: hidden;
 }
 
 .admin {
@@ -10688,7 +10689,7 @@ body {
   width: 100%;
   background: #2e2227;
   display: grid;
-  height: 100%;
+  height: 100vh;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: "center";
@@ -10783,6 +10784,10 @@ a:hover {
   background: #c96724;
 }
 
+.row {
+  margin: 0;
+}
+
 /* form button image*/
 
 .custom-file-label::after {
@@ -10791,6 +10796,10 @@ a:hover {
 
 #pageHeader {
   height: 100px;
+}
+
+#preview {
+  max-width: 45%;
 }
 
 header {

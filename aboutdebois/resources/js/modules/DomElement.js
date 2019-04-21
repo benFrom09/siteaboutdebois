@@ -21,6 +21,12 @@ const DomElement = {
         editImgCategoryBtn: document.querySelectorAll('.category-edit'),
         imgPublish: document.querySelectorAll('.img-publish'),
     },
+    contactForm: {
+        object: document.querySelector('#object'),
+        email: document.querySelector('#email'),
+        message:document.querySelector('#message')
+
+    }
 };
 
 export default DomElement;

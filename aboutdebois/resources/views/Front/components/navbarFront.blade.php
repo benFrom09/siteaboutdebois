@@ -15,7 +15,7 @@
                 <a href="#">Acceuil<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a href="#">Présentation</a>
+                <a href="{{route('/') . #presentation}}">Présentation</a>
             </li>
             <li class="nav-item">
                 <a href="#">Réalisation</a>

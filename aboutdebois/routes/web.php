@@ -1,5 +1,8 @@
 <?php
 use App\Models\Image;
+use App\Mail\AbdbEmail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -17,9 +20,24 @@ Route::get('/', function () {
     $images = Image::all();
     return view('Front.page.static', compact('images'));
 })->name('static');
+Route::post('/', function (Request $request) {
+    //dd($request);
+    Mail::to('ben09.dev.test@gmail.com')->send(new AbdbEmail($request));
+    return redirect('/')->with('ok', __('Votre message à bien été envoyé, nous vous répondrons le plus rapidement possible :)'));
+});
 
-Auth::routes();
+//Auth::routes();
 $admin = "/abdb-admin";
+// Authentication Routes...
+Route::get($admin . '/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post($admin . '/login', 'Auth\LoginController@login');
+Route::post($admin . '/logout', 'Auth\LoginController@logout')->name('logout');
+Route::post($admin . '/register', 'Auth\RegisterController@register');
+Route::get($admin . '/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post($admin . '/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::post($admin . '/password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+Route::get($admin . '/password/reset', 'Auth\forgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::get($admin . '/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::get($admin . '/home', 'HomeController@index')->name('home');
 
 //Category

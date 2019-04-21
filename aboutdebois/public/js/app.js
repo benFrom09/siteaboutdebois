@@ -6269,7 +6269,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\r\n.slides img {\r\n    vertical-align: middle;\r\n    width: 100%;\r\n    border-radius:0.5rem;\r\n    box-shadow: 1px 1px 12px #555;\r\n}\r\n.slideshowContainer {\r\n    max-width: 1000px;\r\n    height: 100%;\r\n    position: relative;\r\n    margin: 0 auto;\r\n}\r\n.slides{\r\n    position:absolute;\r\n    top:50%;\r\n    left:50%;\r\n    -webkit-transform: translate3d(-50%,-50%,0);\r\n            transform: translate3d(-50%,-50%,0);\r\n    opacity:0;\r\n    transition:all ease-out 0.4s ;\r\n }\r\n.slideNumber{\r\n    position:absolute;\r\n    top:0;\r\n    padding:8px 12px;\r\n    color:red;\r\n    z-index:100;\r\n    \r\n}\r\n.legend {\r\n    width: 100%;\r\n    padding:1rem;\r\n    text-align: center;\r\n    box-sizing: border-box;\r\n    line-height: 1.4rem;\r\n    background:#271819;\r\n    margin:1.5rem 0;\r\n    box-shadow:-1px 1px 2px 0px #2f2929;\r\n}\r\n\r\n.dotsContainer {\r\n    text-align:center;\r\n    position: absolute;\r\n    bottom:0;\r\n    margin-top:1rem;\r\n    padding:0.3rem;\r\n    width: 100%;\r\n}\r\n\r\n.dots {\r\n    height: 20px;\r\n    width: 20px;\r\n    display:inline-block;\r\n    background-color: aquamarine;\r\n    border-radius:50%;\r\n    margin:0.2rem;\r\n    cursor: pointer;\r\n    \r\n}\r\n.dot-active {\r\n    background: #000;\r\n}\r\n\r\n.showing {\r\n    opacity:1;\r\n}", ""]);
+exports.push([module.i, "\r\n.slides img {\r\n    vertical-align: middle;\r\n    width: 100%;\r\n    border-radius:0.5rem;\r\n    box-shadow: 1px 1px 12px #555;\r\n}\r\n.slideshowContainer {\r\n    max-width: 1000px;\r\n    height: 100%;\r\n    position: relative;\r\n    margin: 0 auto;\r\n}\r\n.slides{\r\n    margin:0;\r\n    position:absolute;\r\n    top:50%;\r\n    left:50%;\r\n    -webkit-transform: translate3d(-50%,-50%,0);\r\n            transform: translate3d(-50%,-50%,0);\r\n    opacity:0;\r\n    transition:all ease 0.2s ;\r\n    display: flex;\r\n    justify-content: center;\r\n     flex-direction: column;\r\n      align-items: center;\r\n }\r\n.slideNumber{\r\n    position:absolute;\r\n    top:0;\r\n    padding:8px 12px;\r\n    color:#FF5722;\r\n    z-index:100;\r\n    \r\n}\r\n.legend {\r\n    width: 100%;\r\n    padding:1rem;\r\n    text-align: center;\r\n    box-sizing: border-box;\r\n    line-height: 1.4rem;\r\n    background:#271819;\r\n    margin:1.5rem 0;\r\n    box-shadow:-1px 1px 2px 0px #2f2929;\r\n}\r\n\r\n.dotsContainer {\r\n    text-align:center;\r\n    /*position: absolute;\r\n    bottom:0;*/\r\n    margin-top:1rem;\r\n    padding:0.3rem;\r\n    width: 100%;\r\n}\r\n\r\n.dots {\r\n    height: 20px;\r\n    width: 20px;\r\n    display:inline-block;\r\n    background-color: #985b36;\r\n    border-radius:50%;\r\n    margin:0.2rem;\r\n    cursor: pointer;\r\n    \r\n}\r\n.dot-active {\r\n    background: #000;\r\n}\r\n\r\n.showing {\r\n    opacity:1;\r\n}", ""]);
 
 // exports
 
@@ -43460,7 +43460,9 @@ var App = {
     }
   },
   loading: function loading() {
+    document.body.style.overflowY = 'hidden';
     var timeout = window.setTimeout(function () {
+      document.body.style.overflowY = 'auto';
       _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].loader.style.display = 'none';
       clearTimeout(timeout);
     }, 500);
@@ -43692,6 +43694,10 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
   App.carousel = new _modules_carousel_Carousel__WEBPACK_IMPORTED_MODULE_3__["default"](document.querySelector('.slideshowContainer'));
   document.querySelectorAll(".slider-item").forEach(function (item, i) {
     item.addEventListener("click", function (e) {
+      if (App.carousel === null) {
+        App.carousel = new _modules_carousel_Carousel__WEBPACK_IMPORTED_MODULE_3__["default"](document.querySelector('.slideshowContainer'));
+      }
+
       document.body.style.overflowY = 'hidden';
       openModalRealisation();
       App.sliderFullScreen = true;
@@ -43710,11 +43716,18 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
   });
   document.querySelector(".close-realisation").addEventListener("click", function (e) {
     closeModalRealisation();
+    App.carousel.destroy();
+    App.carousel = null;
     document.body.style.overflowY = 'auto';
   });
   window.addEventListener('resize', function (e) {
     closeModalRealisation();
-    App.carousel = null;
+
+    if (App.carousel) {
+      App.carousel.destroy();
+      App.carousel = null;
+    }
+
     App.sliderFullscreen = false;
     document.body.style.overflowY = 'auto';
   });
@@ -43811,6 +43824,11 @@ var DomElement = {
     editImgDescriptionBtn: document.querySelectorAll('.description-edit'),
     editImgCategoryBtn: document.querySelectorAll('.category-edit'),
     imgPublish: document.querySelectorAll('.img-publish')
+  },
+  contactForm: {
+    object: document.querySelector('#object'),
+    email: document.querySelector('#email'),
+    message: document.querySelector('#message')
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (DomElement);
@@ -43947,6 +43965,14 @@ function () {
     value: function previous() {
       this.slideIndex--;
       this.showSlide();
+    }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      this.container = null;
+      this.items = null;
+      this.dots.remove();
+      this.slideIndex = 0;
     }
   }]);
 

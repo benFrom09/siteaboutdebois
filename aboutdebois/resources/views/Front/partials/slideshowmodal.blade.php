@@ -7,11 +7,9 @@
                 {{$k + 1 .'/'. count($images)}}
             </div>
             <img src="{{asset('storage/uploads/' . $image->name)}}" alt"">
-            <div class="legend">Lorem ipsum, dolor sit amet
-                consectetur adipisicing elit. Natus, eos, iusto unde
-                quos enim, magni corporis ducimus commodi repudiandae
-                aperiam saepe! Impedit perferendis expedita esse placeat earum,
-                quibusdam numquam optio!</div>
+            @if($image->description != null || $image->description != '')
+            <div class="legend">{{$image->description}}</div>
+            @endif
         </figure>
         @endforeach
     </div>

@@ -187,6 +187,16 @@ label {
 .gold {
   color: var(--abdb-span-text-color); }
 
+  .references {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+}
+.references i{
+  margin:0.3rem;
+}
+  
 #page-header {
   position: fixed;
   top: 0;
@@ -250,6 +260,7 @@ label {
   position: relative; 
   margin:auto;
   width:100%;
+  padding: 100px 0px;
 }
 
 .service-items-container {
@@ -794,6 +805,7 @@ nav {
 
 #header-menu a:hover {
   -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
   transform: scale(1.2);
   transition: -webkit-transform ease-in-out 0.4s;
   transition: transform ease-in-out 0.4s;
