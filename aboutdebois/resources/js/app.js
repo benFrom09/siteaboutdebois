@@ -40,6 +40,29 @@ const App = {
     },
     sliderFullscreen: false,
     carousel: null,
+    isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
+    screenWidth: window.innerWidth,
+    slick: null,
+
+}
+
+function initSlider() {
+    return $(".slider").slick({
+        infinite: false,
+        speed: 300,
+        centerPadding: "60px",
+        slidesToShow: 4,
+        arrows: true,
+        dots: true,
+        touchMove: true,
+        responsive: [
+            {
+                breakpoint: 640,
+                settings: 'unslick'
+            }
+
+        ]
+    });
 }
 
 function openModalRealisation(e) {
@@ -85,18 +108,57 @@ if (window.location.pathname === '/abdb-admin/categories') {
 }
 
 if (window.location.pathname === '/abdb-admin/galerie/create') {
+    let files = null;
+    let image = null;
+    let submit = document.querySelector('.abdb-form-btn');
+    submit.disabled = true;
+    let config = { attributes: true, childList: true };
     DomElement.fileInput.addEventListener('change', (e) => {
-        let files = e.target.files;
+        if (image) return false;
+        image = new Image();
+        files = e.target.files;
         if (files && files[0]) {
+            if (!files[0].name.substr(-4).match(/.jpg|.JPG|.png|.PNG/)) {
+                image = null;
+                return Swal.fire('L\'extention du fichier n\'est pas valide');
+            }
             document.querySelector('.custom-file-label').innerHTML = files[0].name;
             let reader = new FileReader();
             reader.addEventListener('load', (e) => {
-                DomElement.imagePreview.src = e.target.result;
+                image.id = 'preview';
+                image.classList.add('img-fluid');
+                image.src = e.target.result;
             });
             reader.readAsDataURL(files[0]);
+            DomElement.imagePreview.appendChild(image);
+            submit.disabled = false;
         }
 
     });
+
+    let observer = new MutationObserver((mutations) => {
+        for (let mutation of mutations) {
+            if (mutation.type == 'childList') {
+                if (mutation.addedNodes[0]) {
+                    mutation.addedNodes[0].onmouseover = (e) => {
+                        e.target.title = 'Cliquer sur l\'image pour annuler';
+                    };
+                    mutation.addedNodes[0].onclick = (e) => {
+                        files = null;
+                        DomElement.fileInput.value = '';
+                        DomElement.fileInput.nextElementSibling.innerHTML = '';
+                        submit.disabled = true;
+                        DomElement.imagePreview.innerHTML = '';
+                        image = null;
+                    }
+                }
+
+
+            }
+        }
+    });
+    observer.observe(DomElement.imagePreview, config);
+
 }
 
 //ADMIN.HOME
@@ -202,7 +264,7 @@ if (window.location.pathname === '/abdb-admin/home') {
                 });
                 item.addEventListener('mouseout', (e) => {
                     icon.nextElementSibling.style.opacity = 0;
-                    con.nextElementSibling.style.transform = 'transform:scale(0) rotate(-12deg)';
+                    icon.nextElementSibling.style.transform = 'transform:scale(0) rotate(-12deg)';
                     icon.nextElementSibling.style.transition = 'all 0.25s';
                 });
 
@@ -220,18 +282,30 @@ if (window.location.pathname.match(/^\/abdb-admin\/galerie\/categorie\/[A-Za-z_0
 
 if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
 
+
     //front slick slider banners
 
-    $(".slider").slick({
+    App.slick = initSlider();
+    /*
+    App.slick = $(".slider").slick({
         infinite: false,
         speed: 300,
         centerPadding: "60px",
         slidesToShow: 4,
         arrows: true,
-        dots: true
+        dots: true,
+        touchMove: true,
+        responsive: [
+
+            {
+                breakpoint: 640,
+                settings: 'unslick'
+            }
+
+        ]
     });
 
-
+    */
 
 
     window.onscroll = function (e) {
@@ -265,6 +339,9 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
     document.querySelectorAll(".slider-item").forEach((item, i) => {
 
         item.addEventListener("click", e => {
+            if (window.innerWidth <= 640) {
+                return false;
+            }
             if (App.carousel === null) {
                 App.carousel = new Carousel(document.querySelector('.slideshowContainer'));
             }
@@ -298,10 +375,20 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
             App.carousel.destroy();
             App.carousel = null;
         }
+        if (window.innerWidth <= 640) {
+            App.slick = null;
+        }
+        if (window.innerWidth >= 641) {
+            if (App.slick == null) {
+                App.slick = initSlider();
+            }
 
+        }
         App.sliderFullscreen = false;
         document.body.style.overflowY = 'auto';
     });
+
+
 
 
 }

@@ -20,7 +20,7 @@
         <br>
     </div>
     <div class="form-group preview-container">
-        <img id="preview" class="img-fluid" src="#" alt="">
+        <!--<img id="preview" class="img-fluid">-->
     </div>
     <div class="form-group">
         <label for="category_id">@lang('Catégorie')</label>

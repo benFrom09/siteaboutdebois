@@ -8,7 +8,9 @@
             </div>
             <img src="{{asset('storage/uploads/' . $image->name)}}" alt"">
             @if($image->description != null || $image->description != '')
-            <div class="legend">{{$image->description}}</div>
+            <div class="legend">
+                <p>{{$image->description}}</p>
+            </div>
             @endif
         </figure>
         @endforeach

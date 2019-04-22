@@ -14,7 +14,7 @@ const DomElement = {
         deleteBtn: document.querySelectorAll('.btn[data-name="delete-category"]'),
     },
     fileInput: document.querySelector('input[type="file"]'),
-    imagePreview: document.querySelector('#preview'),
+    imagePreview: document.querySelector('.preview-container'),
     imageManager: {
         deleteBtn: document.querySelectorAll('.image-delete'),
         editImgDescriptionBtn: document.querySelectorAll('.description-edit'),
@@ -24,7 +24,7 @@ const DomElement = {
     contactForm: {
         object: document.querySelector('#object'),
         email: document.querySelector('#email'),
-        message:document.querySelector('#message')
+        message: document.querySelector('#message')
 
     }
 };

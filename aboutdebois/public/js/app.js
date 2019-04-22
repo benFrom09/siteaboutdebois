@@ -6211,7 +6211,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, ".slick-prev {\n  left: 10%;\n  z-index: 100;\n}\n\n.slick-next {\n  right: 10%;\n}\n\n.slick-next, .slick-prev {\n  width: 2.5rem;\n  height: 2.5rem;\n}\n\n.slick-next:before, .slick-prev:before {\n  font-size: 2.5rem;\n  color: #c96724;\n}\n\n.slider-image {\n  margin: 10px;\n}\n\n.slider-image img {\n  cursor: pointer;\n}", ""]);
+exports.push([module.i, ".slick-prev {\n  left: 10%;\n  z-index: 100;\n}\n\n.slick-next {\n  right: 10%;\n}\n\n.slick-next, .slick-prev {\n  width: 2.5rem;\n  height: 2.5rem;\n}\n\n.slick-next:before, .slick-prev:before {\n  font-size: 2.5rem;\n  color: #c96724;\n}\n\n.slider-image {\n  margin: 10px;\n}\n\n@media (min-width: 641px) {\n  .slider-image img {\n    cursor: pointer;\n  }\n}", ""]);
 
 // exports
 
@@ -6269,7 +6269,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\r\n.slides img {\r\n    vertical-align: middle;\r\n    width: 100%;\r\n    border-radius:0.5rem;\r\n    box-shadow: 1px 1px 12px #555;\r\n}\r\n.slideshowContainer {\r\n    max-width: 1000px;\r\n    height: 100%;\r\n    position: relative;\r\n    margin: 0 auto;\r\n}\r\n.slides{\r\n    margin:0;\r\n    position:absolute;\r\n    top:50%;\r\n    left:50%;\r\n    -webkit-transform: translate3d(-50%,-50%,0);\r\n            transform: translate3d(-50%,-50%,0);\r\n    opacity:0;\r\n    transition:all ease 0.2s ;\r\n    display: flex;\r\n    justify-content: center;\r\n     flex-direction: column;\r\n      align-items: center;\r\n }\r\n.slideNumber{\r\n    position:absolute;\r\n    top:0;\r\n    padding:8px 12px;\r\n    color:#FF5722;\r\n    z-index:100;\r\n    \r\n}\r\n.legend {\r\n    width: 100%;\r\n    padding:1rem;\r\n    text-align: center;\r\n    box-sizing: border-box;\r\n    line-height: 1.4rem;\r\n    background:#271819;\r\n    margin:1.5rem 0;\r\n    box-shadow:-1px 1px 2px 0px #2f2929;\r\n}\r\n\r\n.dotsContainer {\r\n    text-align:center;\r\n    /*position: absolute;\r\n    bottom:0;*/\r\n    margin-top:1rem;\r\n    padding:0.3rem;\r\n    width: 100%;\r\n}\r\n\r\n.dots {\r\n    height: 20px;\r\n    width: 20px;\r\n    display:inline-block;\r\n    background-color: #985b36;\r\n    border-radius:50%;\r\n    margin:0.2rem;\r\n    cursor: pointer;\r\n    \r\n}\r\n.dot-active {\r\n    background: #000;\r\n}\r\n\r\n.showing {\r\n    opacity:1;\r\n}", ""]);
+exports.push([module.i, "\r\n.slides img {\r\n    vertical-align: middle;\r\n    border-radius:0.5rem;\r\n    box-shadow: 1px 1px 12px #555;\r\n}\r\n.slideshowContainer {\r\n    max-width: 1000px;\r\n    height: 100%;\r\n    /*position: relative;*/\r\n    margin: 0 auto;\r\n}\r\n.slides{\r\n    margin:0;\r\n    position:absolute;\r\n    top:50%;\r\n    left:50%;\r\n    -webkit-transform: translate3d(-50%,-50%,0);\r\n            transform: translate3d(-50%,-50%,0);\r\n    opacity:0;\r\n    transition:all ease 0.2s ;\r\n    display: flex;\r\n    justify-content: center;\r\n     flex-direction: column;\r\n      align-items: center;\r\n }\r\n.slideNumber{\r\n    position:absolute;\r\n    bottom:10px;\r\n    padding:8px 12px;\r\n    color:#FF5722;\r\n    z-index:100;\r\n    \r\n}\r\n.legend {\r\n    width: 100%;\r\n    padding:1rem;\r\n    text-align: center;\r\n    box-sizing: border-box;\r\n    line-height: 1.4rem;\r\n    position:absolute;\r\n    bottom:0;\r\n    margin:1.5rem 0;\r\n   \r\n}\r\n\r\n.legend p {\r\n    width:50%;\r\n    margin:auto;\r\n    word-wrap:break-word;\r\n    background:#161d2d26;\r\n    padding: 1.2rem;\r\n    border-radius: 0.2rem;\r\n}\r\n\r\n.dotsContainer {\r\n    text-align:center;\r\n    position:relative;\r\n    z-index:1000;\r\n    margin: 1rem auto;\r\n    width: 50%;\r\n}\r\n\r\n.dots {\r\n    height: 20px;\r\n    width: 20px;\r\n    display:inline-block;\r\n    background-color: #985b36;\r\n    border-radius:50%;\r\n    margin:0.2rem;\r\n    cursor: pointer;\r\n    \r\n}\r\n.dot-active {\r\n    background: #000;\r\n}\r\n\r\n.showing {\r\n    opacity:1;\r\n    width:70%;\r\n}", ""]);
 
 // exports
 
@@ -43468,8 +43468,27 @@ var App = {
     }, 500);
   },
   sliderFullscreen: false,
-  carousel: null
+  carousel: null,
+  isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
+  screenWidth: window.innerWidth,
+  slick: null
 };
+
+function initSlider() {
+  return $(".slider").slick({
+    infinite: false,
+    speed: 300,
+    centerPadding: "60px",
+    slidesToShow: 4,
+    arrows: true,
+    dots: true,
+    touchMove: true,
+    responsive: [{
+      breakpoint: 640,
+      settings: 'unslick'
+    }]
+  });
+}
 
 function openModalRealisation(e) {
   document.querySelector(".slider-container").style.position = "static";
@@ -43518,18 +43537,79 @@ if (window.location.pathname === '/abdb-admin/categories') {
 }
 
 if (window.location.pathname === '/abdb-admin/galerie/create') {
+  var files = null;
+  var image = null;
+  var submit = document.querySelector('.abdb-form-btn');
+  submit.disabled = true;
+  var config = {
+    attributes: true,
+    childList: true
+  };
   _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].fileInput.addEventListener('change', function (e) {
-    var files = e.target.files;
+    if (image) return false;
+    image = new Image();
+    files = e.target.files;
 
     if (files && files[0]) {
+      if (!files[0].name.substr(-4).match(/.jpg|.JPG|.png|.PNG/)) {
+        image = null;
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire('L\'extention du fichier n\'est pas valide');
+      }
+
       document.querySelector('.custom-file-label').innerHTML = files[0].name;
       var reader = new FileReader();
       reader.addEventListener('load', function (e) {
-        _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].imagePreview.src = e.target.result;
+        image.id = 'preview';
+        image.classList.add('img-fluid');
+        image.src = e.target.result;
       });
       reader.readAsDataURL(files[0]);
+      _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].imagePreview.appendChild(image);
+      submit.disabled = false;
     }
   });
+  var observer = new MutationObserver(function (mutations) {
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = mutations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var mutation = _step.value;
+
+        if (mutation.type == 'childList') {
+          if (mutation.addedNodes[0]) {
+            mutation.addedNodes[0].onmouseover = function (e) {
+              e.target.title = 'Cliquer sur l\'image pour annuler';
+            };
+
+            mutation.addedNodes[0].onclick = function (e) {
+              files = null;
+              _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].fileInput.value = '';
+              _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].fileInput.nextElementSibling.innerHTML = '';
+              submit.disabled = true;
+              _modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].imagePreview.innerHTML = '';
+              image = null;
+            };
+          }
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  });
+  observer.observe(_modules_DomElement__WEBPACK_IMPORTED_MODULE_2__["default"].imagePreview, config);
 } //ADMIN.HOME
 
 
@@ -43642,7 +43722,7 @@ if (window.location.pathname === '/abdb-admin/home') {
         });
         item.addEventListener('mouseout', function (e) {
           icon.nextElementSibling.style.opacity = 0;
-          con.nextElementSibling.style.transform = 'transform:scale(0) rotate(-12deg)';
+          icon.nextElementSibling.style.transform = 'transform:scale(0) rotate(-12deg)';
           icon.nextElementSibling.style.transition = 'all 0.25s';
         });
       });
@@ -43657,14 +43737,24 @@ if (window.location.pathname.match(/^\/abdb-admin\/galerie\/categorie\/[A-Za-z_0
 
 if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
   //front slick slider banners
-  $(".slider").slick({
-    infinite: false,
-    speed: 300,
-    centerPadding: "60px",
-    slidesToShow: 4,
-    arrows: true,
-    dots: true
+  App.slick = initSlider();
+  /*
+  App.slick = $(".slider").slick({
+      infinite: false,
+      speed: 300,
+      centerPadding: "60px",
+      slidesToShow: 4,
+      arrows: true,
+      dots: true,
+      touchMove: true,
+      responsive: [
+           {
+              breakpoint: 640,
+              settings: 'unslick'
+          }
+       ]
   });
+   */
 
   window.onscroll = function (e) {
     if (document.body.getBoundingClientRect().top < -1) {
@@ -43694,6 +43784,10 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
   App.carousel = new _modules_carousel_Carousel__WEBPACK_IMPORTED_MODULE_3__["default"](document.querySelector('.slideshowContainer'));
   document.querySelectorAll(".slider-item").forEach(function (item, i) {
     item.addEventListener("click", function (e) {
+      if (window.innerWidth <= 640) {
+        return false;
+      }
+
       if (App.carousel === null) {
         App.carousel = new _modules_carousel_Carousel__WEBPACK_IMPORTED_MODULE_3__["default"](document.querySelector('.slideshowContainer'));
       }
@@ -43726,6 +43820,16 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
     if (App.carousel) {
       App.carousel.destroy();
       App.carousel = null;
+    }
+
+    if (window.innerWidth <= 640) {
+      App.slick = null;
+    }
+
+    if (window.innerWidth >= 641) {
+      if (App.slick == null) {
+        App.slick = initSlider();
+      }
     }
 
     App.sliderFullscreen = false;
@@ -43818,7 +43922,7 @@ var DomElement = {
     deleteBtn: document.querySelectorAll('.btn[data-name="delete-category"]')
   },
   fileInput: document.querySelector('input[type="file"]'),
-  imagePreview: document.querySelector('#preview'),
+  imagePreview: document.querySelector('.preview-container'),
   imageManager: {
     deleteBtn: document.querySelectorAll('.image-delete'),
     editImgDescriptionBtn: document.querySelectorAll('.description-edit'),

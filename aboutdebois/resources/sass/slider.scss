@@ -21,6 +21,8 @@
     margin:10px;
 }
 
-.slider-image img {
+@media (min-width:641px){
+    .slider-image img {
     cursor:pointer;
+    }
 }

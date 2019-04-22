@@ -697,6 +697,16 @@ img {
     width: 100%; }
   .contact-form {
     width: 100%; } }
+@media (max-width:640px){
+  .slider-image img {
+    cursor:auto;
+  }
+}
+@media (min-width:641px){
+  .slider-image img {
+    cursor:pionter;
+  }
+}
 
 @media (min-width: 481px) and (max-width: 1024px) {
   #presentation,
@@ -813,7 +823,7 @@ nav {
   padding: 19px 20px 19px 20px;
   border-bottom: 1px solid var(--abdb-span-text-color); }
 
-@media (min-width: 481px) and (max-width: 1024px) {
+@media (min-width: 0) and (max-width: 1024px) {
   #page-header {
     position: static; }
   nav {
