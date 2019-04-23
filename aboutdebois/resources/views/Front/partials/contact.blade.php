@@ -24,6 +24,7 @@
                 </div>
                 <div class="form-input">
                     <input type="email" name="email" id="email" placeholder="Votre Email">
+                    <i class="fas fa-times"></i>
                 </div>
                 <div class="form-input">
                     <textarea name="message" id="message" cols="30" rows="10" placeholder="Votre message"></textarea>

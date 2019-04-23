@@ -3,7 +3,8 @@ import './modules/menu';
 import Swal from 'sweetalert2';
 import DomElement from './modules/DomElement';
 import Carousel from './modules/carousel/Carousel';
-import Slick from 'slick-carousel/slick/slick';
+import 'slick-carousel/slick/slick';
+import validator from 'validator';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../sass/slider.scss';
@@ -38,11 +39,34 @@ const App = {
             clearTimeout(timeout);
         }, 500);
     },
+    escapeHtml(text) {
+
+        let map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+
+    },
     sliderFullscreen: false,
     carousel: null,
     isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
     screenWidth: window.innerWidth,
     slick: null,
+    validator: false,
+    textarea: false,
+    unlockForm(btn) {
+        if (this.validator && this.textarea) {
+            btn.disabled = false;
+        }
+        else {
+            btn.disabled = true;
+        }
+    }
 
 }
 
@@ -63,6 +87,15 @@ function initSlider() {
 
         ]
     });
+}
+
+function toggleClassName(element, className) {
+    if (element.classList.contains(className)) {
+        element.classList.remove(className);
+    }
+    else {
+        element.classList.add(className);
+    }
 }
 
 function openModalRealisation(e) {
@@ -281,57 +314,40 @@ if (window.location.pathname.match(/^\/abdb-admin\/galerie\/categorie\/[A-Za-z_0
 }
 
 if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
-
-
     //front slick slider banners
-
     App.slick = initSlider();
-    /*
-    App.slick = $(".slider").slick({
-        infinite: false,
-        speed: 300,
-        centerPadding: "60px",
-        slidesToShow: 4,
-        arrows: true,
-        dots: true,
-        touchMove: true,
-        responsive: [
-
-            {
-                breakpoint: 640,
-                settings: 'unslick'
-            }
-
-        ]
-    });
-
-    */
+    let checkIcon = document.querySelector('.fa-times');
+    DomElement.contactForm.send.disabled = true;
 
 
     window.onscroll = function (e) {
-        if (document.body.getBoundingClientRect().top < -1) {
-            DomElement.frontNav.style.background = "#fff";
-            DomElement.frontNav.style.opacity = 1;
-            DomElement.frontNav.style.padding = "20px 0 20px 0";
-        } else {
-            DomElement.frontNav.style.background = "#fff";
-            DomElement.frontNav.style.opacity = 0.8;
-            DomElement.frontNav.style.padding = "0";
-        }
-        let winScroll =
-            document.body.scrollTop || document.documentElement.scrollTop;
-        let height =
-            document.documentElement.scrollHeight -
-            document.documentElement.clientHeight;
-        let scrolled = (winScroll / height) * 100;
-        if (winScroll !== 0) {
-            DomElement.scrollBarInc.style.height = 5 + "px";
-            DomElement.scrollBarInc.parentNode.style.background = "#fff";
-        } else {
-            DomElement.scrollBarInc.style.height = 0 + "px";
+        if (window.innerWidth > 1247) {
+            if (document.body.getBoundingClientRect().top < -1) {
+                DomElement.frontNav.style.background = "#fff";
+                DomElement.frontNav.style.opacity = 1;
+                DomElement.frontNav.style.padding = "20px 0 20px 0";
+            } else {
+                DomElement.frontNav.style.background = "#fff";
+                DomElement.frontNav.style.opacity = 0.8;
+                DomElement.frontNav.style.padding = "0";
+            }
+            let winScroll =
+                document.body.scrollTop || document.documentElement.scrollTop;
+            let height =
+                document.documentElement.scrollHeight -
+                document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            if (winScroll !== 0) {
+                DomElement.scrollBarInc.style.height = 5 + "px";
+                DomElement.scrollBarInc.parentNode.style.background = "#fff";
+
+            } else {
+                DomElement.scrollBarInc.style.height = 0 + "px";
+            }
+
+            DomElement.scrollBarInc.style.width = scrolled + "%";
         }
 
-        DomElement.scrollBarInc.style.width = scrolled + "%";
     };
 
     App.carousel = new Carousel(document.querySelector('.slideshowContainer'));
@@ -387,6 +403,63 @@ if (window.location.pathname.match(/^(?!abdb-admin\/)[\W]$/)) {
         App.sliderFullscreen = false;
         document.body.style.overflowY = 'auto';
     });
+
+    //form email validation
+
+    DomElement.contactForm.email.addEventListener('keyup', (e) => {
+        App.escapeHtml(e.target.value);
+        if (!validator.isEmail(e.target.value)) {
+            App.validator = false;
+            e.target.style.color = '#8a0000';
+        }
+        else {
+            App.validator = true;
+        }
+        if (App.validator) {
+            checkIcon.classList.remove('fa-times');
+            checkIcon.classList.add('fa-check')
+            e.target.style.color = '#000000cf';
+
+        }
+        else {
+            if (checkIcon.classList.contains('fa-check')) {
+                checkIcon.classList.remove('fa-check');
+
+            }
+
+            checkIcon.classList.add('fa-times');
+        }
+        App.unlockForm(DomElement.contactForm.send);
+
+    });
+
+    DomElement.contactForm.message.addEventListener('input', (e) => {
+        if (e.target.value != '') {
+            App.textarea = true;
+        } else {
+            App.textarea = false;
+        }
+
+        App.unlockForm(DomElement.contactForm.send);
+    });
+
+    //navbar
+
+    DomElement.hamburgerBtn.addEventListener('click', (e) => {
+        toggleClassName(document.querySelector('nav'), 'opened');
+    });
+
+    document.querySelectorAll('#header-menu li').forEach(link => {
+        let nav = document.querySelector('nav');
+        if (window.innerWidth <= 1246) {
+            link.addEventListener('click', (e) => {
+                toggleClassName(nav, 'opened');
+            });
+        }
+
+    })
+
+
 
 
 

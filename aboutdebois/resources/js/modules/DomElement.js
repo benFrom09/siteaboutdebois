@@ -21,10 +21,12 @@ const DomElement = {
         editImgCategoryBtn: document.querySelectorAll('.category-edit'),
         imgPublish: document.querySelectorAll('.img-publish'),
     },
+    hamburgerBtn: document.querySelector('#hamburgerBtn'),
     contactForm: {
         object: document.querySelector('#object'),
         email: document.querySelector('#email'),
-        message: document.querySelector('#message')
+        message: document.querySelector('#message'),
+        send: document.querySelector('#contact-form-button')
 
     }
 };

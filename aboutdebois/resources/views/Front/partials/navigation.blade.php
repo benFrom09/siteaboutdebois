@@ -1,12 +1,14 @@
-<div id="page-header">
+<div id="pageHeader">
     <header>
-        <nav role="navigation">
-            <div id="logo">
-
-                <a href="https://www.pagesjaunes.fr/pros/57407323"><span>a</span> bout de bois</a>
+        <div id="logo">
+            <div>
+                <a href="https://www.pagesjaunes.fr/pros/57407323" target="_blank"><span>a</span> bout de bois</a>
                 <span id="menuiserie">menuiserie</span>
-
             </div>
+            <span id="hamburgerBtn">☰</span>
+        </div>
+
+        <nav role="navigation">
             <ul id="header-menu">
                 <li><a href="{{url('/') . '#'}}">Accueil</a></li>
                 <li><a href="{{url('/') . '#presentation'}}">Présentation</a></li>
@@ -27,9 +29,8 @@
                 @endauth
             </ul>
         </nav>
-        <button id="hamburgerBtn">☰</button>
-        <div class="scroll-indic-container">
-            <div class="scroll-indic" id="bar"></div>
-        </div>
     </header>
+    <div class="scroll-indic-container">
+        <div class="scroll-indic" id="bar"></div>
+    </div>
 </div>

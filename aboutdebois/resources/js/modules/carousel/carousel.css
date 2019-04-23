@@ -61,10 +61,10 @@
 }
 
 .dots {
-    height: 20px;
-    width: 20px;
+    height: 15px;
+    width: 15px;
     display:inline-block;
-    background-color: #985b36;
+    background-color: #fdf9f8;
     border-radius:50%;
     margin:0.2rem;
     cursor: pointer;

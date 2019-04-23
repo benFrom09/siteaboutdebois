@@ -1,18 +1,10 @@
 @extends('layouts.front')
 @section('content')
-@include('Front.partials.header')
+@include('Front.partials.navigation')
 <section id="cover">
     <div class="cover-image">
         <img src="/img/cover.jpg" alt="photo de couverture etablit rabeaux et copeaux de bois" class="image">
     </div>
-    <!--
-    <div class="arrow-down">
-        <div id="down">
-            <i class="fas fa-angle-down "></i>
-        </div>
-
-    </div>
--->
 </section>
 <section id="presentation">
     <div class="section-title">
@@ -76,13 +68,14 @@
                     pour répondre aux besoins de l'ouvrage, et au désir du client !</p>
             </div>
             <div class="about-content">
-                <img class="about-work" src="/img/vuedehaut.jpg" alt="">
+                <img class="about-work" src="{{asset('img/outil.jpg')}}"
+                    alt="photos outillage bois,rabots,ciseaux à bois">
                 <p>A l'heure d'une obsolescence programmée quasiment généralisée,
                     A BOUT DE BOIS vous propose du mobilier durable, écologique, et en
                     accord avec vos souhaits.</p>
             </div>
             <div class="about-content">
-                <img class="about-work" src="/img/tetelit.jpg" alt="">
+                <img class="about-work" src="{{asset('img/tetelit.jpg')}}" alt="photos tête de lit">
             </div>
         </div>
     </div>
